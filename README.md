@@ -85,4 +85,4 @@ See the [_example](_example) directory for more.
 
 # Dependencies
 
-This library only depends on `golang.org/x/crypto`.
+This library only depends on `golang.org/x/crypto` and `golang.org/x/sys` (transitively).
