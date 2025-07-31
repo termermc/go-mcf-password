@@ -41,7 +41,7 @@ func main() {
 	hash, err := mcfpassword.HashPassword("abc123_bad_password")
 	if err != nil {
 		panic(err)
-    }
+	}
 	
 	println(hash) // $argon2id$v=19$m=65536,t=3,p=4$CWk8oanYEpzw8BtUkt/n6g$nzFamtDqeupREf7LOP+EJxz+KhYfz3Bg8pPrrE/LZVg
 }
@@ -65,19 +65,19 @@ func main() {
 	matches, rehash, err := mcfpassword.VerifyPassword(pass, hash)
 	if err != nil {
 		panic(err)
-    }
+	}
 	if !matches {
 		panic("password didn't match")
-    }
+	}
 	
 	if rehash {
 		newHash, err := mcfpassword.HashPassword(pass)
 		if err != nil {
 			panic(err)
-        }
+		}
 		
 		fmt.Printf("password hash was old, rehashed: %s\n", newHash)
-    }
+	}
 }
 ```
 
