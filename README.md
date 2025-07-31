@@ -81,7 +81,7 @@ func main() {
 }
 ```
 
-See the [example](example) directory for more.
+See the [_example](_example) directory for more.
 
 # Dependencies
 
