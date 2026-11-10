@@ -19,10 +19,38 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
-        go-version: '1.23'
+        go-version: '1.26'
 
     - name: Build
       run: go build -v ./...
 
     - name: Test
       run: go test -v ./...
+
+  fuzz:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.26'
+
+    # -fuzz accepts a single target per invocation.
+    - name: Fuzz VerifyPassword
+      run: go test -run '^$' -fuzz '^FuzzVerifyPassword$' -fuzztime 30s .
+
+    - name: Fuzz ParseArgon2Mcf
+      run: go test -run '^$' -fuzz '^FuzzParseArgon2Mcf$' -fuzztime 30s .
+
+    - name: Fuzz hash/verify round trip
+      run: go test -run '^$' -fuzz '^FuzzHashVerifyRoundTrip$' -fuzztime 30s .
+
+    # A failing input is written to testdata/fuzz/<target>/. Download it and commit it as a regression test.
+    - name: Upload failing fuzz inputs
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: fuzz-failures
+        path: testdata/fuzz
